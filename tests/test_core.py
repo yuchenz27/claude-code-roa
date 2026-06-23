@@ -80,6 +80,8 @@ def test_formatters():
     assert core.fmt(45) == "45s"
     assert core.fmt(90) == "1m30s"
     assert core.fmt(3700) == "1h01m"
+    assert core.fmt(2 * 86400 + 3 * 3600 + 12 * 60) == "2d03h12m"
+    assert core.fmt(2 * 86400) == "2d00h00m"
     assert core.ftok(950) == "950"
     assert core.ftok(2500) == "2k"
     assert core.ftok(1_500_000) == "1.5M"
@@ -149,6 +151,41 @@ def test_idle_notification_is_not_permission():
             assert st["perm_count"] == 0
         finally:
             del os.environ["ROA_DIR"]
+
+
+# ---- session health (closure tiers) ---------------------------------------
+
+# fixed mid-morning base so spans below stay within one local day (tz-robust)
+_T0 = datetime.datetime(2026, 1, 1, 9, 0, 0).timestamp()
+
+
+def _state(first, last, work):
+    st = core.new_state("s", "/x")
+    st["first_ts"], st["last_ts"], st["h2a_total_s"] = first, last, work
+    return st
+
+
+def test_health_fresh_when_too_little_work():
+    assert core.session_health(_state(_T0, _T0 + 10, 10))[0] == "fresh"   # <60s work
+
+
+def test_health_healthy_tight():
+    assert core.session_health(_state(_T0, _T0 + 3 * 3600, 3600))[0] == "healthy"   # drag 3×, same day
+
+
+def test_health_aging_high_drag():
+    assert core.session_health(_state(_T0, _T0 + 8 * 3600, 3600))[0] == "aging"     # drag 8×, same day
+
+
+def test_health_aging_carryover_low_drag():
+    # crosses a day but only drag 2× — lingering, not abandoned: aging, not draining
+    d0 = datetime.datetime(2026, 1, 1, 23, 0, 0).timestamp()
+    d1 = datetime.datetime(2026, 1, 2, 1, 0, 0).timestamp()
+    assert core.session_health(_state(d0, d1, 3600))[0] == "aging"
+
+
+def test_health_draining_high_drag():
+    assert core.session_health(_state(_T0, _T0 + 9600, 600))[0] == "draining"  # drag 16×, same day
 
 
 if __name__ == "__main__":

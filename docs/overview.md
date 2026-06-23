@@ -26,12 +26,10 @@ quantifies and tracks the attention side of the loop, for two purposes:
 - **Permission dimension** — the time the agent spends blocked on your approval
   is carved out of H2A and tracked separately.
 
-## Roadmap (v2 ideas)
+## What's next
 
-- A global attention timeline (resolves the parallel double-count in A2H and the
-  "pure" Time Lev denominator at once).
-- A presence signal (HID idle) to tighten the Human Time proxy.
-- Log retention / cleanup automation.
+Forward-looking ideas and deferred work live in **[ideas.md](ideas.md)** — the
+global attention timeline, presence signal, the "loops closed" metric, and more.
 
 See **[design.md](design.md)** for architecture and metric definitions, and
 **[decisions.md](decisions.md)** for the running decision log.

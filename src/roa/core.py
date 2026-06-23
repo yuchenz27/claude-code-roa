@@ -28,8 +28,12 @@ def epoch(iso_str):
 
 
 def fmt(s):
-    """Seconds -> compact human duration (e.g. 1h05m, 2m30s, 12s)."""
+    """Seconds -> compact human duration (e.g. 2d03h12m, 1h05m, 2m30s, 12s)."""
     s = int(s)
+    if s >= 86400:
+        d, rem = divmod(s, 86400)
+        h, rem = divmod(rem, 3600)
+        return f"{d}d{h:02d}h{rem // 60:02d}m"
     if s >= 3600:
         return f"{s//3600}h{(s % 3600)//60:02d}m"
     if s >= 60:
@@ -178,3 +182,39 @@ def apply_event(state, event):
 
     state["updated_at"] = datetime.datetime.fromtimestamp(ts).isoformat()
     return state
+
+
+# Attention-health thresholds. drag = lifespan / agent-working-time ("open vs
+# worked"). These are a directional starting point, calibrated against real
+# session data — expected to be tuned over time.
+HEALTH_AGING_DRAG = 5    # open >5× the work time = starting to linger
+HEALTH_DRAIN_DRAG = 15   # open >15× the work time = a stale, abandoned loop
+
+
+def session_health(state):
+    """Attention-health of one session, from CLOSURE signals only: does it keep
+    producing, or has it become an open loop that prolongs the demand on your
+    attention? Deliberately NOT about context size / AI output quality — that's a
+    different lens (the machine's reliability, not your attention).
+
+    Returns (tier, drag, carry_over_days):
+      drag       = lifespan / agent-working-time (open-vs-worked); None if 'fresh'
+      carry_over = calendar days the session spans (>=1 means it crossed a day)
+      tier       = 'fresh'    too new / <1min work to judge — new is healthy
+                   'healthy'  tight, closing (open ≈ worked)
+                   'aging'    lingering — open climbing, or carried across a day
+                   'draining' open ≫ worked (a stale, abandoned loop)
+    """
+    ft, lt, work = state.get("first_ts"), state.get("last_ts"), state.get("h2a_total_s", 0)
+    if ft is None or lt is None or work < 60:
+        return ("fresh", None, 0)
+    drag = (lt - ft) / work
+    days = (datetime.date.fromtimestamp(lt) - datetime.date.fromtimestamp(ft)).days
+    if drag > HEALTH_DRAIN_DRAG:
+        tier = "draining"
+    elif drag > HEALTH_AGING_DRAG or days >= 1:
+        # carried over a day = at least lingering, but red only if drag is high too
+        tier = "aging"
+    else:
+        tier = "healthy"
+    return (tier, drag, days)

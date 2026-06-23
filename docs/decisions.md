@@ -3,6 +3,24 @@
 Appended in reverse-chronological order. Each entry: **decision + reasoning**
 (especially "why not the other way"). This is the project's memory.
 
+## Session health
+
+**D19 · Session health = closure (drag + carry-over), NOT context, NOT interrupts.**
+"Session health" in ROA is about the human's attention, not the machine's reliability —
+so it is deliberately *not* context-rot / context% (that's the model's problem, and
+claude-hud already shows it). A session is healthy when it keeps producing and closes
+its loop; draining when it lingers open and prolongs the demand on your attention.
+Signal = `drag` (lifespan / agent-working-time) + carry-over (>1 calendar day).
+Rejected: **interrupt/permission rate** — it conflates operation-heavy-but-productive
+work with attention drain, and its remedy is allowlisting, not closing the session; a
+productive op-heavy session should read healthy, and that effect already nets into
+leverage. **Compaction count** likewise dropped — its attention cost already shows up in
+leverage (measure the effect, not the proxy). Per-session leverage is the ideal "good
+investment?" signal but inherits the parallel attention-denominator problem → v2. Tiers
+(aging >5× or carried over a day; draining >15×) calibrated against real session data
+— carry-over alone is only "aging", not "draining" (multi-day-but-productive work is
+common); expected to be tuned.
+
 ## Permission dimension
 
 **D18 · Carve permission wait out of H2A; fold it into A2H.**

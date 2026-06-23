@@ -81,6 +81,20 @@ def line_timing(data):
             parts.append(f"perm {core.fmt(st.get('perm_total_s', 0))} · {perm_n} asks")
         out.append("A2H ｜ " + " · ".join(parts))
 
+    # This session's attention-health (closure: open-vs-worked + carry-over).
+    # A colored dot keeps it glanceable; the raw open/worked numbers say why.
+    tier, drag, days = core.session_health(st)
+    dot = {"fresh": "\033[32m●\033[0m", "healthy": "\033[32m●\033[0m",
+           "aging": "\033[33m●\033[0m", "draining": "\033[31m●\033[0m"}[tier]
+    if tier == "fresh":
+        out.append(f"Session Health ｜ {dot} fresh")
+    else:
+        # 'open' is day-aware (e.g. 2d03h12m), so carry-over shows up inline —
+        # no separate day tag needed. The tier (red dot) already reflects it.
+        life = st.get("last_ts", 0) - st.get("first_ts", 0)
+        out.append(f"Session Health ｜ {dot} {tier} · open {core.fmt(life)} "
+                   f"· worked {core.fmt(st.get('h2a_total_s', 0))}")
+
     return out
 
 
@@ -134,31 +148,28 @@ def today_globals():
 
 
 def line_global(data):
-    """Two neon "Today ｜" bands: time/leverage, then token footprint.
-    Returns a list of 0-2 lines."""
+    """One neon "Today ｜" band: time/leverage/switches, then tokens.
+    Returns a list of 0-1 lines."""
     g = today_globals()
     neon = "\033[38;2;240;90;255m"
-    out = []
 
     parts = []
     if g:
-        parts.append(f"Agent Time {core.fmt(g['agent_time'])}")
-        parts.append(f"Human Time {core.fmt(g['focus_time'])}")
+        parts.append(f"Agent {core.fmt(g['agent_time'])}")
+        parts.append(f"Human {core.fmt(g['focus_time'])}")
         if g.get("leverage") is not None:
-            parts.append(f"Time Lev {g['leverage']:.2f}×")
+            parts.append(f"Leverage {g['leverage']:.2f}×")
     try:
         a = json.load(open(active_file()))
         parts.append(f"Switches {a.get('switches_today', 0)}")
     except Exception:
         pass
-    if parts:
-        out.append(f"{neon}Today ｜ " + " · ".join(parts) + "\033[0m")
-
-    # second band: token footprint (total, mostly cache re-reads) + real output
+    # tokens trail the line: total (footprint, mostly cache re-reads) + real output
     if g and g.get("total_tokens"):
-        out.append(f"{neon}Today ｜ Tokens {core.ftok(g['total_tokens'])} "
-                   f"· out {core.ftok(g['out_tokens'])}\033[0m")
-    return out
+        parts.append(f"Tokens {core.ftok(g['total_tokens'])}")
+        parts.append(f"out {core.ftok(g['out_tokens'])}")
+
+    return [f"{neon}Today ｜ " + " · ".join(parts) + "\033[0m"] if parts else []
 
 
 def main():

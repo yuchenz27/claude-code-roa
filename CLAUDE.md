@@ -16,7 +16,7 @@ where the depth lives. Keep it lean — it loads into every session.
 - `hooks/` `commands/` `skills/` `.claude-plugin/` — the Claude Code plugin shell.
 - `docs/design.md` — architecture, data model, metric definitions ·
   `docs/decisions.md` — decision log (the *why*, with Dn ids) ·
-  `docs/overview.md` — thesis + status + roadmap.
+  `docs/overview.md` — thesis + status · `docs/ideas.md` — forward-looking backlog.
 
 ## Invariants — violate these and it breaks
 
@@ -39,6 +39,9 @@ where the depth lives. Keep it lean — it loads into every session.
 
 ## Dev loop
 
+- **`main` is public — develop changes on a branch, test, then merge.** The
+  primary working copy is what the live hooks run, so the checked-out branch goes
+  live as you edit; keep `main` clean and verified. Don't push unverified work to it.
 - Plain Python, no build step — edit and it's live on the next hook fire.
 - Tests (zero deps): `python3 tests/test_core.py`.
 - You dogfood against a working copy: your personal hooks point at this repo's
