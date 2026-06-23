@@ -14,8 +14,8 @@ no account, all local.
 (identity, context/usage); everything below — Output Style, H2A, A2H, and the two
 `Today` bands — is ROA, appended beneath it.*
 
-> A `Time Lev` of 1.59× means that for every hour of your active attention, you
-> pulled 1.59 agent-hours of work — because parallel sessions add up.
+> A `Time Lev` of 1.58× means that for every hour of your active attention, you
+> pulled 1.58 agent-hours of work — because parallel sessions add up.
 
 ## What it measures
 
