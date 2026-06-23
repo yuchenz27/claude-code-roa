@@ -5,7 +5,7 @@
     {
       "name": "roa",
       "source": "./",
-      "description": "Return on Attention — measure how much AI work you move per minute of human focus."
+      "description": "Return on Attention — how much agent work each hour of your attention moves."
     }
   ]
 }

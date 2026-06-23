@@ -1,6 +1,6 @@
 # Claude Code ROA — Return on Attention
 
-**Measure how much AI work you move per minute of human focus.** (“ROA” for short.)
+**Measure how much agent work each hour of your attention moves.**
 
 When you work with coding agents, the scarce resource is not tokens — it's *your
 attention*. It's the one serial station: an agent can run while you look away,
