@@ -8,7 +8,7 @@ but only you can decide, unblock, and redirect. ROA turns that idea into a live
 gauge and a set of reports, straight from Claude Code's own hooks. No wrappers,
 no account, all local.
 
-![ROA in a live statusline](assets/statusline.png)
+![ROA in a live statusline](assets/hud.png)
 
 *The top two lines are [claude-hud](https://github.com/jarrodwatts/claude-hud)
 (identity, context/usage); everything below — Output Style, H2A, A2H, and the two
