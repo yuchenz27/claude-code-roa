@@ -50,6 +50,12 @@ skill once:
 /setup        # wires statusLine into your settings.json, then restart
 ```
 
+ROA composes with **any** statusline, not just one. Claude Code has a single
+`statusLine` slot, so ROA renders *below* whatever upstream statusline you already
+run: set `ROA_WRAP` to that command and ROA appends its lines beneath it (leave it
+unset for a clean ROA-only statusline). `/setup` also recognizes
+[claude-hud](https://github.com/jarrodwatts/claude-hud) and wires it for you.
+
 Reports, any time:
 
 ```
