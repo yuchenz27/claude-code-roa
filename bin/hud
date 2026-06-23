@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+"""Statusline entrypoint — called by bin/statusline.sh. Reads the session JSON
+on stdin and prints ROA's HUD lines."""
+import os
+import sys
+
+_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(_root, "src"))
+
+from roa.hud import main  # noqa: E402
+
+try:
+    main()
+except Exception:
+    pass
+sys.exit(0)

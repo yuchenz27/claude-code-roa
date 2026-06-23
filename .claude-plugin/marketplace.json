@@ -1,0 +1,11 @@
+{
+  "name": "claude-code-roa",
+  "owner": { "name": "Yuchen" },
+  "plugins": [
+    {
+      "name": "roa",
+      "source": "./",
+      "description": "Return on Attention — measure how much AI work you move per minute of human focus."
+    }
+  ]
+}

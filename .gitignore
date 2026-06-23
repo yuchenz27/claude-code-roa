@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# OS
+.DS_Store
+
+# ROA data never belongs in the repo — it lives in ~/.claude/roa (or $ROA_DIR).
+# These patterns are belt-and-suspenders in case someone points ROA_DIR here.
+observer-*.jsonl
+daily.jsonl
+active.json
+state/
+*.bak

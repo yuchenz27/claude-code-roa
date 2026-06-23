@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+"""CLI entrypoint for the offline ROA report. See `report --help` notes in
+src/roa/report.py for usage (--today, --record, or a cwd substring filter)."""
+import os
+import sys
+
+_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(_root, "src"))
+
+from roa.report import main  # noqa: E402
+
+main()

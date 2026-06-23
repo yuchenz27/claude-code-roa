@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+"""Hook entrypoint — wired into settings.json hooks (or the plugin's hooks.json).
+
+Adds the repo's src/ to the path and runs the tracker. Resolves src/ relative to
+this file, so it works identically from a working copy or an installed plugin.
+"""
+import os
+import sys
+
+_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(_root, "src"))
+
+from roa.tracker import main  # noqa: E402
+
+try:
+    main()
+except Exception:
+    pass  # a hook must never break the session
+sys.exit(0)
