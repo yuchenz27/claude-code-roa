@@ -8,15 +8,14 @@ but only you can decide, unblock, and redirect. ROA turns that idea into a live
 gauge and a set of reports, straight from Claude Code's own hooks. No wrappers,
 no account, all local.
 
-```
-H2A ｜ last 2m01s · avg 1m52s · total 3h49m · 122 turns · running 4s
-A2H ｜ prompt ~2m04s · perm 1m20s · 2 asks
-Today ｜ Agent Time 5h56m · Human Time 2h31m · Time Lev 2.35× · Switches 45
-Today ｜ Tokens 66M · out 766k
-```
+![ROA in a live statusline](assets/statusline.png)
 
-> A `Time Lev` of 2.35× means that for every hour of your active attention, you
-> pulled 2.35 agent-hours of work — because parallel sessions add up.
+*The top two lines are [claude-hud](https://github.com/jarrodwatts/claude-hud)
+(identity, context/usage); everything below — Output Style, H2A, A2H, and the two
+`Today` bands — is ROA, appended beneath it.*
+
+> A `Time Lev` of 1.59× means that for every hour of your active attention, you
+> pulled 1.59 agent-hours of work — because parallel sessions add up.
 
 ## What it measures
 
