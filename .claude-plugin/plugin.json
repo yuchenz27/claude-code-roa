@@ -3,5 +3,7 @@
   "version": "0.1.0",
   "description": "Return on Attention — measure how much AI work you move per minute of human focus, from Claude Code's own hooks.",
   "author": { "name": "Yuchen" },
+  "homepage": "https://github.com/yuchenz27/claude-code-roa",
+  "repository": "https://github.com/yuchenz27/claude-code-roa",
   "keywords": ["claude-code", "attention", "leverage", "metrics", "statusline", "hooks"]
 }

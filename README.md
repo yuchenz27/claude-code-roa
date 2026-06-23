@@ -38,7 +38,7 @@ It's a directional dashboard, not a precise score. See [docs/design.md](docs/des
 ROA is a Claude Code plugin distributed as its own marketplace.
 
 ```
-/plugin marketplace add <owner>/claude-code-roa
+/plugin marketplace add yuchenz27/claude-code-roa
 /plugin install roa@claude-code-roa
 ```
 
